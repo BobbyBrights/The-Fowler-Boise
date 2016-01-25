@@ -1,4 +1,4 @@
-/*! formstone v0.8.26 [navigation.css] 2015-11-01 | MIT License | formstone.it */
+/*! formstone v0.8.36 [navigation.css] 2016-01-15 | MIT License | formstone.it */
 
 /**
 	 * @class
@@ -357,6 +357,9 @@
   background: #ffffff;
   display: block;
   overflow: auto;
+}
+.fs-navigation-push-nav.fs-navigation-enabled,
+.fs-navigation-reveal-nav.fs-navigation-enabled {
   visibility: hidden;
 }
 .fs-navigation-reveal-nav.fs-navigation-animated {

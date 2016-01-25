@@ -1,8 +1,71 @@
 # Changelog
 
+### 0.8.36
+
+* Added HTML label support to Navigation (Thanks @collegeman!)
+* Fixed accessibility issues with Background (Thanks @nhall!)
+* Fixed accessibility issues with Carousel (Thanks @nhall!)
+* Fixed accessibility issues with Checkbox
+* Fixed accessibility issues with Dropdown
+
+### 0.8.35
+
+* Fixed issue with Analytics scroll depth interfering with bounce rate
+* Added `autoUpload` option and `start` method to Upload
+* Fixed issue with Upload queued files parameter
+
+### 0.8.34
+
+* Fixed issue with Carousel `touch` events not clearing auto advance timers
+* Fixed issue with Dropdown not firing `change` event
+* Fixed issue with Dropdown `focus` handling 
+
+### 0.8.33
+
+* Added ability to open Lightbox gallery with URL fragment identifier
+* Fixed issue with Range `change` events
+
+### 0.8.32
+
+* Fixed issue with `overlay` Navigation in Android Browser
+* Fixed issue with Dropdown not opening on Windows touch devices
+* Fixed issue with multi Dropdown on mobile
+
+### 0.8.31
+
+* Fixed issue with Modernizr change to `no-touchevents`
+* Modified Carousel touch paging to be more consistent
+* Added `matchWidth` option to Carousel
+* Fixed issue with Background not storing muted state
+
+### 0.8.30
+
+* Added ability to clear default label in Upload (Thanks @Valamas!)
+* Fixed issue with right clicking Number arrows
+* Fixed issue with pop state in ASAP
+
+### 0.8.29
+
+* Switched event delegation in Upload to allow extra content
+* Added `filedragenter`, `filedragover`, and `filedragleave` events to Upload (Thanks @Valamas!)
+* Added multi-select range and modifier actions to Dropdown
+* Fixed issue with `single` and `rtl` options in Carousel
+
+### 0.8.28
+
+* Fixed issue with resize mobile Lightbox
+* Fixed issue with updating Dropdown Scrollbars (Thanks @cbier!)
+* Removed `tap` event from Touch
+* Resolved issue with IE pointer events in Touch
+
+### 0.8.27
+
+* Added `readonly` support to Checkbox (Thanks @Bonscho!), Dropdown, Number and Range
+* Updated upload Demo to include `queue` event (Thanks @Bonscho!)
+
 ### 0.8.26
 
-* Adding matchMedia graceful degradation to Media Query, matches closest `fallbackWidth` and `fallbackHeight` values
+* Added matchMedia graceful degradation to Media Query, matches closest `fallbackWidth` and `fallbackHeight` values
 * Added `ignoreTypes` option to ASAP to avoid loading downloadable files via AJAX
 * Renamed `extensions` to `fileTypes` in Lightbox for consistency
 
@@ -15,8 +78,8 @@
 
 ### 0.8.24
 
-* Adding `support.nativeMatchMedia` and `fallbackWidth` values for graceful degradation
-* Adding matchMedia graceful degradation to Carousel, matches closest `fallbackWidth` value
+* Added `support.nativeMatchMedia` and `fallbackWidth` values for graceful degradation
+* Added matchMedia graceful degradation to Carousel, matches closest `fallbackWidth` value
 
 ### 0.8.23
 
@@ -38,7 +101,7 @@
 
 ### 0.8.20
 
-* Added `min-height` to Carousel items, resolves issue with accidientally empty carousels
+* Added `min-height` to Carousel items, resolves issue with accidentally empty carousels
 * Added ability to target same content element from multiple Navigations
 
 ### 0.8.19
@@ -116,7 +179,7 @@
 
 * Added HTML option labels to Dropdown 
 * Added `bottomEdge` option to Dropdown for custom thresholds
-* Fixing Touch click event error
+* Fixed Touch click event error
 
 ### 0.8.6
 

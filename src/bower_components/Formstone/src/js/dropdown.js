@@ -20,8 +20,9 @@
 	 */
 
 	function construct(data) {
-		data.multiple = this.prop("multiple");
-		data.disabled = this.is(":disabled");
+		data.multiple  = this.prop("multiple");
+		data.disabled  = this.is(":disabled") || this.is("[readonly]");
+		data.lastIndex = false;
 
 		if (data.multiple) {
 			data.links = false;
@@ -45,11 +46,16 @@
 
 		// Build options array
 		var $allOptions = this.find("option, optgroup"),
-			$options = $allOptions.filter("option");
+			$options    = $allOptions.filter("option"),
+			$label      = $("[for=" + this.attr("id") + "]");
 
 		// Swap tab index, no more interacting with the actual select!
 		data.tabIndex = this[0].tabIndex;
-		this[0].tabIndex = -1;
+		this[0].tabIndex   = -1;
+
+		if ($label.length) {
+			$label[0].tabIndex = -1;
+		}
 
 		// Build wrapper
 		var wrapperClasses = [
@@ -75,7 +81,7 @@
 
 		// Build inner
 		if (!data.multiple) {
-			innerHtml += '<button type="button" class="' + RawClasses.selected + '">';
+			innerHtml += '<button type="button" class="' + RawClasses.selected + '" tabindex="-1">';
 			innerHtml += $('<span></span>').text( trimText(originalLabel, data.trim) ).html();
 			innerHtml += '</button>';
 		}
@@ -88,6 +94,7 @@
 
 		// Store plugin data
 		data.$dropdown        = this.parent(Classes.base);
+		data.$label           = $label;
 		data.$allOptions      = $allOptions;
 		data.$options         = $options;
 		data.$selected        = data.$dropdown.find(Classes.selected);
@@ -98,6 +105,12 @@
 		data.focused          = false;
 
 		buildOptions(data);
+
+		if (data.links) {
+			this.attr("aria-hidden", "true");
+		} else {
+			data.$selected.add(data.$wrapper).attr("aria-hidden", "true");
+		}
 
 		if (!data.multiple) {
 			updateOption(originalIndex, data);
@@ -119,13 +132,15 @@
 
 		// Focus/Blur events
 		if (!Formstone.isMobile) {
-			data.$dropdown.on(Events.focusIn, data, onFocusIn)
-						  .on(Events.focusOut, data, onFocusOut);
 
 			// Handle clicks to associated labels
 			this.on(Events.focusIn, data, function(e) {
-				e.data.$dropdown.trigger(Events.raw.focusIn);
+				e.data.$dropdown.trigger(Events.raw.focus);
 			});
+
+
+			data.$dropdown.on(Events.focusIn, data, onFocusIn)
+						  .on(Events.focusOut, data, onFocusOut);
 		}
 	}
 
@@ -146,7 +161,15 @@
 			data.$wrapper.fsScrollbar("destroy");
 		}
 
-		data.$el[0].tabIndex = data.tabIndex;
+		if (data.links) {
+			this.removeAttr("aria-hidden");
+		}
+
+		data.$el[0].tabIndex    = data.tabIndex;
+
+		if (data.$label.length) {
+			data.$label[0].tabIndex = data.tabIndex;
+		}
 
 		data.$dropdown.off(Events.namespace);
 		data.$options.off(Events.namespace);
@@ -215,6 +238,11 @@
 	*/
 
 	function updateDropdown(data) {
+		// Scrollbar support
+        if ($.fn.fsScrollbar !== undefined) {
+            data.$wrapper.fsScrollbar("destroy");
+        }
+
 		var index = data.index;
 
 		data.$allOptions = data.$el.find("option, optgroup");
@@ -228,6 +256,11 @@
 		if (!data.multiple) {
 			updateOption(index, data);
 		}
+
+		// Scrollbar support
+        if ($.fn.fsScrollbar !== undefined) {
+            data.$wrapper.fsScrollbar();
+        }
 	}
 
 	/**
@@ -239,7 +272,7 @@
 
 	function buildOptions(data) {
 		var html = '',
-			j = 0;
+			j    = 0;
 
 		for (var i = 0, count = data.$allOptions.length; i < count; i++) {
 			var $option = data.$allOptions.eq(i),
@@ -257,7 +290,8 @@
 				html += '<span class="' + classes.join(" ") + '">' + $option.attr("label") + '</span>';
 			} else {
 				var opVal   = $option.val(),
-					opLabel = $option.data("label");
+					opLabel = $option.data("label"),
+					opType  = (data.links) ? "a" : 'button type="button"';
 
 				if (!$option.attr("value")) {
 					$option.attr("value", opVal);
@@ -267,6 +301,8 @@
 
 				if ($option.hasClass(RawClasses.item_placeholder)) {
 					classes.push(RawClasses.item_placeholder);
+
+					opType = "span";
 				}
 				if ($option.is(":selected")) {
 					classes.push(RawClasses.item_selected);
@@ -275,8 +311,23 @@
 					classes.push(RawClasses.item_disabled);
 				}
 
-				html += '<button type="button" class="' + classes.join(" ") + '" ';
-				html += 'data-value="' + opVal + '">';
+				html += '<' + opType + ' class="' + classes.join(" ") + '"';
+
+				if (data.links) {
+					if (opType === "span") {
+						html += ' aria-hidden="true"';
+					} else {
+						html += ' href="' + opVal + '"';
+
+						if (data.external) {
+							html += ' target="_blank"';
+						}
+					}
+				} else {
+					html += ' data-value="' + opVal + '"';
+				}
+
+				html += ' tabindex="-1">';
 
 				if (opLabel) {
 					html += opLabel;
@@ -284,7 +335,7 @@
 					html += Functions.decodeEntities( trimText($option.text(), data.trim) );
 				}
 
-				html += '</button>';
+				html += '</' + opType + '>';
 
 				j++;
 			}
@@ -308,7 +359,7 @@
 
 		if (!data.disabled) {
 			// Handle mobile, but not Firefox, unless desktop forced
-			if (!data.mobile && Formstone.isMobile && !Formstone.isFirefoxMobile) {
+			if (!data.mobile && Formstone.isMobile && !Formstone.isFirefoxMobile && !Formstone.isIEMobile) {
 				var el = data.$el[0];
 
 				if (Document.createEvent) { // All
@@ -443,28 +494,26 @@
 	 */
 
 	function onSelect(e) {
-		Functions.killEvent(e);
-
 		var $target = $(this),
 			data = e.data;
 
-		if (!data.disabled) {
-			if (data.$wrapper.is(":visible")) {
-				// Update
-				var index = data.$items.index($target);
+		Functions.killEvent(e);
 
-				if (index !== data.index) {
-					updateOption(index, data);
-					handleChange(data);
-				}
+		if (!data.disabled) {
+			var index = data.$items.index($target);
+
+			data.focusIndex = index;
+
+			if (data.$wrapper.is(":visible")) {
+				updateOption(index, data, e.shiftKey, e.metaKey || e.ctrlKey);
+				handleChange(data);
 			}
 
 			if (!data.multiple) {
-				// Clean up
 				closeOptions(data);
 			}
 
-			data.$dropdown.trigger(Events.focusIn);
+			data.$dropdown.trigger(Events.focus);
 		}
 	}
 
@@ -481,6 +530,8 @@
 
 		if (!internal && !data.multiple) {
 			var index = data.$options.index( data.$options.filter("[value='" + escapeText($target.val()) + "']") );
+
+			data.focusIndex = index;
 
 			updateOption(index, data);
 			handleChange(data);
@@ -504,6 +555,7 @@
 			closeOthers(data);
 
 			data.focused = true;
+			data.focusIndex = data.index;
 
 			data.$dropdown.addClass(RawClasses.focus)
 						  .on(Events.keyDown + data.dotGuid, data, onKeypress);
@@ -532,6 +584,12 @@
 			if (!data.multiple) {
 				// Clean up
 				closeOptions(data);
+
+				if (data.index !== data.focusIndex) {
+					handleChange(data);
+
+					data.focusIndex = data.index;
+				}
 			}
 		}
 	}
@@ -612,7 +670,7 @@
 	 * @param data [object] "instance data"
 	 */
 
-	function updateOption(index, data) {
+	function updateOption(index, data, shiftKey, metaKey) {
 		var $item      = data.$items.eq(index),
 			$option    = data.$options.eq(index),
 			isSelected = $item.hasClass(RawClasses.item_selected),
@@ -621,26 +679,63 @@
 		// Check for disabled options
 		if (!isDisabled) {
 			if (data.multiple) {
-				if (isSelected) {
-					$option.prop("selected", null);
-					$item.removeClass(RawClasses.item_selected);
+				if (Formstone.isMobile) {
+					if (!isDisabled) {
+						if (isSelected) {
+							$option.prop("selected", null);
+							$item.removeClass(RawClasses.item_selected);
+						} else {
+							$option.prop("selected", true);
+							$item.addClass(RawClasses.item_selected);
+						}
+					}
 				} else {
-					$option.prop("selected", true);
-					$item.addClass(RawClasses.item_selected);
+					if (shiftKey && data.lastIndex !== false) {
+						var start = (data.lastIndex > index)  ? index : data.lastIndex,
+							end   = ((data.lastIndex > index) ? data.lastIndex : index) + 1;
+
+						data.$options.prop("selected", null);
+						data.$items.filter(Classes.item_selected)
+							.removeClass(RawClasses.item_selected);
+
+						data.$options.slice(start, end).not("[disabled]").prop("selected", true);
+						data.$items.slice(start, end).not(Classes.item_disabled).addClass(RawClasses.item_selected);
+					} else if (metaKey) {
+						if (isSelected) {
+							$option.prop("selected", null);
+							$item.removeClass(RawClasses.item_selected);
+						} else {
+							$option.prop("selected", true);
+							$item.addClass(RawClasses.item_selected);
+						}
+
+						data.lastIndex = index;
+					} else {
+						data.$options.prop("selected", null);
+						data.$items.filter(Classes.item_selected)
+							.removeClass(RawClasses.item_selected);
+
+						$option.prop("selected", true);
+						$item.addClass(RawClasses.item_selected);
+
+						data.lastIndex = index;
+					}
 				}
 			} else if (index > -1 && index < data.$items.length) {
-				var label = $option.data("label") || $item.html();
+				if (index !== data.index) {
+					var label = $option.data("label") || $item.html();
 
-				data.$selected.html(label)
-							  .removeClass(Classes.item_placeholder);
+					data.$selected.html(label)
+								  .removeClass(Classes.item_placeholder);
 
-				data.$items.filter(Classes.item_selected)
-						   .removeClass(RawClasses.item_selected);
+					data.$items.filter(Classes.item_selected)
+							   .removeClass(RawClasses.item_selected);
 
-				data.$el[0].selectedIndex = index;
+					data.$el[0].selectedIndex = index;
 
-				$item.addClass(RawClasses.item_selected);
-				data.index = index;
+					$item.addClass(RawClasses.item_selected);
+					data.index = index;
+				}
 			} else if (data.label !== "") {
 				data.$selected.html(data.label);
 			}

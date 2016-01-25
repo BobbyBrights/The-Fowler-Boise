@@ -30,7 +30,7 @@
 		data.step = parseFloat(this.attr("step")) || 1;
 		data.timer        = null;
 		data.digits       = significantDigits(data.step);
-		data.disabled     = this.prop("disabled");
+		data.disabled     = this.is(":disabled") || this.is("[readonly]");
 
 		var html = "";
 		html += '<button type="button" class="' + [RawClasses.arrow, RawClasses.up].join(" ") + '">'   + data.labels.up + '</button>';
@@ -132,7 +132,7 @@
 
 		var data = e.data;
 
-		if (!data.disabled) {
+		if (!data.disabled && e.which <= 1) {
 			var change = $(e.target).hasClass(RawClasses.up) ? data.step : -data.step;
 
 			data.timer = Functions.startTimer(data.timer, 300, function() {

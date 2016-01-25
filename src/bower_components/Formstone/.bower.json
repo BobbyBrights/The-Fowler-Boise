@@ -1,6 +1,6 @@
 {
   "name": "formstone",
-  "version": "0.8.26",
+  "version": "0.8.36",
   "description": "Library of modular front end components.",
   "author": {
     "name": "Ben Plum",
@@ -26,14 +26,14 @@
     "docs/",
     "site/"
   ],
-  "_release": "0.8.26",
+  "_release": "0.8.36",
   "_resolution": {
     "type": "version",
-    "tag": "0.8.26",
-    "commit": "12a35a81843150b4c0357e57f75e7dd371e010c7"
+    "tag": "0.8.36",
+    "commit": "a4ebe1a92453f5e5ce044d35efca97881938f9ca"
   },
   "_source": "git://github.com/Formstone/Formstone.git",
-  "_target": "~0.8.26",
+  "_target": "~0.8.36",
   "_originalSource": "Formstone",
   "_direct": true
 }

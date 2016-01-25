@@ -42,6 +42,15 @@
 
 		data.customControls = ($.type(data.controls) === "object" && data.controls.previous && data.controls.next);
 
+		data.id = this.attr("id");
+
+		if (data.id) {
+			data.ariaID = data.id;
+		} else {
+			data.ariaID = data.rawGuid;
+			this.attr("id", data.ariaID);
+		}
+
 		// Legacy browser support
 		if (!Formstone.support.transform) {
 			data.useMargin = true;
@@ -54,14 +63,14 @@
 			controlNextClasses = [RawClasses.control, RawClasses.control_next].join(" ");
 
 		if (data.controls && !data.customControls) {
-			controlsHtml += '<div class="' + RawClasses.controls + '">';
-			controlsHtml += '<button type="button" class="' + controlPrevClasses + '">' + data.labels.previous + '</button>';
-			controlsHtml += '<button type="button" class="' + controlNextClasses + '">' + data.labels.next + '</button>';
+			controlsHtml += '<div class="' + RawClasses.controls + '" aria-label="carousel controls" aria-controls="' + data.ariaID + '">';
+			controlsHtml += '<button type="button" class="' + controlPrevClasses + '" aria-label="' + data.labels.previous + '">' + data.labels.previous + '</button>';
+			controlsHtml += '<button type="button" class="' + controlNextClasses + '" aria-label="' + data.labels.next + '">' + data.labels.next + '</button>';
 			controlsHtml += '</div>';
 		}
 
 		if (data.pagination) {
-			paginationHtml += '<div class="' + RawClasses.pagination + '">';
+			paginationHtml += '<div class="' + RawClasses.pagination + '" aria-label="carousel pagination" aria-controls="' + data.ariaID + '" role="navigation">';
 			paginationHtml += '</div>';
 		}
 
@@ -79,7 +88,7 @@
 
 		// Modify dom
 		this.addClass( carouselClasses.join(" ") )
-			.wrapInner('<div class="' + RawClasses.wrapper + '"><div class="' + RawClasses.container + '"><div class="' + RawClasses.canister + '"></div></div></div>')
+			.wrapInner('<div class="' + RawClasses.wrapper + '" aria-live="polite"><div class="' + RawClasses.container + '"><div class="' + RawClasses.canister + '"></div></div></div>')
 			.append(controlsHtml)
 			.wrapInner('<div class="' + RawClasses.viewport + '"></div>')
 			.append(paginationHtml);
@@ -166,6 +175,10 @@
 		disable.call(this, data);
 
 		$.fsMediaquery("unbind", data.rawGuid);
+
+		if (data.id !== data.ariaID) {
+			this.attr("id", "");
+		}
 
 		data.$controlItems.removeClass( [Classes.control, RawClasses.control_previous, Classes.control_next, Classes.visible].join(" ") )
 			.off(Events.namespace);
@@ -297,9 +310,10 @@
 
 	function resizeInstance(data) {
 		if (data.enabled) {
-			var h, i, j, k,
+			var h, i, j, k, w,
 				$items,
 				$first,
+				width,
 				height,
 				left;
 
@@ -332,14 +346,14 @@
 			data.pageWidth = data.paged ? data.itemWidth : data.containerWidth;
 			data.pageCount = Math.ceil(data.count / data.perPage);
 
-			data.canisterWidth = ((data.pageWidth + data.itemMargin) * data.pageCount);
+			data.canisterWidth = data.single ? data.containerWidth : ((data.pageWidth + data.itemMargin) * data.pageCount);
 			data.$canister.css({
-				width:  data.canisterWidth,
+				width:  (data.matchWidth) ? data.canisterWidth : 1000000,
 				height: ""
 			});
 
 			data.$items.css({
-				width:  data.itemWidth,
+				width:  (data.matchWidth) ? data.itemWidth : "",
 				height: ""
 			}).removeClass( [RawClasses.visible, RawClasses.item_previous, RawClasses.item_next].join(" ") );
 
@@ -348,6 +362,7 @@
 
 			for (i = 0, j = 0; i < data.count; i += data.perPage) {
 				$items = data.$items.slice(i, i + data.perPage);
+				width = 0;
 				height = 0;
 
 				if ($items.length < data.perPage) {
@@ -363,7 +378,10 @@
 
 				// if (data.autoHeight) {
 					for (k = 0; k < $items.length; k++) {
+						w = $items.eq(k).outerWidth();
 						h = $items.eq(k).outerHeight();
+
+						width += w;
 
 						if (h > height) {
 							height = h;
@@ -374,8 +392,9 @@
 				// }
 
 				data.pages.push({
-					left      : data.rtl ? left - (data.canisterWidth - data.pageWidth - data.itemMargin) : left,
+					left      : data.rtl ? left - (data.canisterWidth - width - (data.itemMargin * 2)) : left,
 					height    : height,
+					width     : width,
 					$items    : $items
 				});
 
@@ -684,9 +703,9 @@
 
 		for (var i = 0, count = data.pages.length; i < count; i++) {
 			if (i === index) {
-				data.pages[i].$items.addClass(RawClasses.visible);
+				data.pages[i].$items.addClass(RawClasses.visible).attr("aria-hidden", "false");
 			} else {
-				data.pages[i].$items.not( data.pages[index].$items ).addClass( (i < index) ? RawClasses.item_previous : RawClasses.item_next );
+				data.pages[i].$items.not( data.pages[index].$items ).addClass( (i < index) ? RawClasses.item_previous : RawClasses.item_next ).attr("aria-hidden", "true");
 			}
 		}
 
@@ -805,16 +824,20 @@
 	function onPanStart(e) {
 		var data = e.data;
 
-		if (data.useMargin) {
-			data.leftPosition = parseInt(data.$canister.css("marginLeft"));
-		} else {
-			var matrix = data.$canister.css(TransformProperty).split(",");
-			data.leftPosition = parseInt(matrix[4]); // ?
+		Functions.clearTimer(data.autoTimer);
+
+		if (!data.single) {
+			if (data.useMargin) {
+				data.leftPosition = parseInt(data.$canister.css("marginLeft"));
+			} else {
+				var matrix = data.$canister.css(TransformProperty).split(",");
+				data.leftPosition = parseInt(matrix[4]); // ?
+			}
+
+			data.$canister.css(TransitionProperty, "none");
+
+			onPan(e);
 		}
-
-		data.$canister.css(TransitionProperty, "none");
-
-		onPan(e);
 
 		data.isTouching = true;
 	}
@@ -829,14 +852,16 @@
 	function onPan(e) {
 		var data = e.data;
 
-		data.touchLeft = checkPosition(data, data.leftPosition + e.deltaX);
+		if (!data.single) {
+			data.touchLeft = checkPosition(data, data.leftPosition + e.deltaX);
 
-		if (data.useMargin) {
-			data.$canister.css({
-				marginLeft: data.touchLeft
-			});
-		} else {
-			data.$canister.css(TransformProperty, "translateX(" + data.touchLeft + "px)");
+			if (data.useMargin) {
+				data.$canister.css({
+					marginLeft: data.touchLeft
+				});
+			} else {
+				data.$canister.css(TransformProperty, "translateX(" + data.touchLeft + "px)");
+			}
 		}
 	}
 
@@ -848,9 +873,41 @@
 	 */
 
 	function onPanEnd(e) {
-		var data      = e.data,
-			increment = getIncrement(data, e),
-			index     = (e.deltaX > -50 && e.deltaX < 50) ? data.index : data.index + increment;
+		var data       = e.data,
+			delta      = Math.abs(e.deltaX),
+			increment  = getIncrement(data, e),
+			index      = false;
+
+		if (!data.single) {
+			var i, count,
+				left = Math.abs(data.touchLeft),
+				page = false,
+				dir  = (data.rtl) ? "right" : "left";
+
+			if (e.directionX === dir) {
+				// Left (RTL Right)
+				for (i = 0, count = data.pages.length; i < count; i++) {
+					page = data.pages[i];
+
+					if (left > Math.abs(page.left) + 20) {
+						index = i + 1;
+					}
+				}
+			} else {
+				// Right (RTL Left)
+				for (i = data.pages.length - 1, count = 0; i >= count; i--) {
+					page = data.pages[i];
+
+					if (left < Math.abs(page.left)) {
+						index = i - 1;
+					}
+				}
+			}
+		}
+
+		if (index === false) {
+			index = (delta < 50) ? data.index : data.index + increment;
+		}
 
 		endTouch(data, index);
 	}
@@ -959,6 +1016,7 @@
 			 * @param labels.next [string] <'Next'> "Control text"
 			 * @param labels.previous [string] <'Previous'> "Control text"
 			 * @param matchHeight [boolean] <false> "Flag to match item heights"
+			 * @param matchWidth [boolean] <true> "Flag to match item widths; Requires CSS widths if false"
 			 * @param maxWidth [string] <'Infinity'> "Width at which to auto-disable plugin"
 			 * @param minWidth [string] <'0'> "Width at which to auto-disable plugin"
 			 * @param paged [boolean] <false> "Flag for paged items"
@@ -982,6 +1040,7 @@
 					previous   : "Previous"
 				},
 				matchHeight    : false,
+				matchWidth     : true,
 				maxWidth       : Infinity,
 				minWidth       : '0px',
 				paged          : false,
