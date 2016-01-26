@@ -2,12 +2,16 @@
 
 <div id="splash">
   <div id="splash--centered">
-    <div class="fs-row">
-      <div class="fs-cell fs-lg-5 fs-md-4 fs-sm-3 fs-centered text-center">
-        <?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
-        <?php if ( has_post_thumbnail() ) { the_post_thumbnail( 'full', array( 'class' => 'img-responsive' ) ); } ?>
-        <?php the_content(); ?>
-        <?php endwhile; endif; ?>
+    <div class="fs-rows">
+      <div class="fs-cells fs-all-full fs-centered text-center">
+        <div class="carousel carousel_fade" data-carousel-options='{"single":true,"controls":false,"pagination":false,"infinite":true}'>
+          <?php 
+            $slides = get_field('slideshow');
+            foreach ($slides as $image):
+          ?>
+          <div class="carousel_slide"><img src="<?php echo $image['sizes']['gallery-lg']; ?>" class="img-responsive" /></div>
+          <?php endforeach; ?>
+        </div>
       </div>
     </div>
   </div>

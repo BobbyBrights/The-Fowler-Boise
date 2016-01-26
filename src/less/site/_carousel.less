@@ -1,0 +1,19 @@
+@duration : 2000ms;
+
+.carousel_fade .fs-carousel-item {
+		opacity: 0;
+		visibility: hidden;
+		-webkit-transition: opacity 0s linear, visibility 0s linear;
+				transition: opacity 0s linear, visibility 0s linear;
+		-webkit-transition-delay: @duration;
+				transition-delay: @duration;
+	}
+
+	.carousel_fade .fs-carousel-item.fs-carousel-visible {
+		opacity: 1;
+		visibility: visible;
+		-webkit-transition-duration: @duration;
+				transition-duration: @duration;
+		-webkit-transition-delay: 0s;
+				transition-delay: 0s;
+	}

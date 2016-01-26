@@ -1658,16 +1658,16 @@
   opacity: 0;
   visibility: hidden;
 }
-.no-touch .fs-lightbox .fs-lightbox-control {
+.no-touchevents .fs-lightbox .fs-lightbox-control {
   opacity: 0;
   visibility: hidden;
 }
-.no-touch .fs-lightbox:hover .fs-lightbox-control {
+.no-touchevents .fs-lightbox:hover .fs-lightbox-control {
   opacity: 1;
   visibility: visible;
 }
-.no-touch .fs-lightbox .fs-lightbox-control_disabled,
-.no-touch .fs-lightbox:hover .fs-lightbox-control_disabled {
+.no-touchevents .fs-lightbox .fs-lightbox-control_disabled,
+.no-touchevents .fs-lightbox:hover .fs-lightbox-control_disabled {
   opacity: 0;
   cursor: default;
   visibility: hidden;
@@ -1784,14 +1784,14 @@
   border-left-color: #eee;
   margin-right: 19px;
 }
-.no-touch .fs-lightbox-mobile .fs-lightbox-control,
-.no-touch .fs-lightbox-mobile:hover .fs-lightbox-control {
+.no-touchevents .fs-lightbox-mobile .fs-lightbox-control,
+.no-touchevents .fs-lightbox-mobile:hover .fs-lightbox-control {
   opacity: 1;
   visibility: visible;
 }
 .fs-lightbox-mobile .fs-lightbox-control_disabled,
-.no-touch .fs-lightbox-mobile .fs-lightbox-control_disabled,
-.no-touch .fs-lightbox-mobile:hover .fs-lightbox-control_disabled {
+.no-touchevents .fs-lightbox-mobile .fs-lightbox-control_disabled,
+.no-touchevents .fs-lightbox-mobile:hover .fs-lightbox-control_disabled {
   opacity: 0;
   cursor: default !important;
   visibility: hidden;
@@ -2115,7 +2115,7 @@
   margin: auto;
   opacity: 0.75;
 }
-.no-touch .fs-checkbox-toggle:hover .fs-checkbox-flag:after {
+.no-touchevents .fs-checkbox-toggle:hover .fs-checkbox-flag:after {
   opacity: 1;
 }
 .fs-checkbox-toggle.fs-checkbox-checked .fs-checkbox-flag {
@@ -4558,28 +4558,19 @@ input[type=button] {
   transform: translate(-50%, -50%);
   width: 100%;
 }
-#bag {
-  position: relative;
+.carousel_fade .fs-carousel-item {
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transition: opacity 0s linear, visibility 0s linear;
+  transition: opacity 0s linear, visibility 0s linear;
+  -webkit-transition-delay: 2000ms;
+  transition-delay: 2000ms;
 }
-#bag--wrapper {
-  background: #fff;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.25);
-  position: absolute;
-  right: 0;
-  z-index: 99;
-}
-@media screen and (min-width: 300px) {
-  #bag--wrapper {
-    width: 300px;
-  }
-}
-@media screen and (min-width: 740px) {
-  #bag--wrapper {
-    width: 400px;
-  }
-}
-#bag img {
-  display: block;
-  max-width: 100%;
-  height: auto;
+.carousel_fade .fs-carousel-item.fs-carousel-visible {
+  opacity: 1;
+  visibility: visible;
+  -webkit-transition-duration: 2000ms;
+  transition-duration: 2000ms;
+  -webkit-transition-delay: 0s;
+  transition-delay: 0s;
 }
