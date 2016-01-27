@@ -7,6 +7,22 @@
       <div class="fs-cell fs-all-full fs-md-hide fs-lg-hide"><img src="/assets/img/thefowlerlogo_mobile.svg" class="img-responsive" /></div>
     </div>
   </div>
+  <div id="splash_gallery">
+    <div id="splash_gallery--centered">
+      <div class="fs-row">
+        <div class="fs-cell fs-xl-10 fs-lg-10 fs-md-6 fs-sm-3 fs-centered ">
+          <div class="carousel" data-carousel-options='{"paged":true,"show":1}'>
+            <?php 
+              $slides = get_field('gallery');
+              foreach ($slides as $image):
+            ?>
+            <div class="carousel_slide"><img src="<?php echo $image['sizes']['gallery-lg']; ?>" class="img-responsive" /></div>
+            <?php endforeach; ?>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <?php get_footer('splash'); ?>

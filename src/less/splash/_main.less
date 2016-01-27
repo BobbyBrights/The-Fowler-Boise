@@ -10,4 +10,22 @@
     z-index: 20;
   }
 
+  &_gallery {
+    .cover();
+    background: @black75;
+    z-index: 21;
+    opacity: 0;
+    pointer-events: none;
+    transition: 500ms;
+    &--centered {
+      .center();
+      width: 100%;
+      z-index: 21;
+    }
+    &.fs-swap-active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+
 }

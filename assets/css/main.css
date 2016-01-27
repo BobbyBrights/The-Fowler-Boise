@@ -1178,10 +1178,10 @@
   padding: 0;
   width: 10px;
   height: 10px;
-  background: #333;
+  background: #fff;
   border-radius: 100%;
   margin: 0 3px;
-  opacity: 0.5;
+  opacity: 0.2;
   overflow: hidden;
   text-indent: 200%;
   white-space: nowrap;
@@ -4769,6 +4769,30 @@ input[type=button] {
   transform: translate(-50%, -50%);
   width: 100%;
   z-index: 20;
+}
+#splash_gallery {
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 21;
+  opacity: 0;
+  pointer-events: none;
+  transition: 500ms;
+}
+#splash_gallery--centered {
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  z-index: 21;
+}
+#splash_gallery.fs-swap-active {
+  opacity: 1;
+  pointer-events: auto;
 }
 .carousel_fade .fs-carousel-item {
   opacity: 0;
