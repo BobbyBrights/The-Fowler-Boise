@@ -1,0 +1,8 @@
+@font-face {
+    font-family: 'Akkurat';
+    src: url('/assets/fonts/akkrg_pro_1.eot');
+    src: url('/assets/fonts/akkrg_pro_1.eot') format('embedded-opentype'),
+         url('/assets/fonts/akkrg_pro_1.woff') format('woff'),
+         url('/assets/fonts/akkrg_pro_1.ttf') format('truetype'),
+         url('/assets/fonts/akkrg_pro_1.svg#AkkuratProRegular') format('svg');
+}

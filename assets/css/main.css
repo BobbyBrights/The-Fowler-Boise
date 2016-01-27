@@ -2143,6 +2143,125 @@
 .fs-checkbox-toggle .fs-checkbox-state_off {
   float: right;
 }
+/**
+	 * @class
+	 * @name .fs-background-element
+	 * @type element
+	 * @description Target elmement
+	 */
+/**
+	 * @class
+	 * @name .fs-background
+	 * @type element
+	 * @description Base widget class
+	 */
+.fs-background {
+  overflow: hidden;
+  position: relative;
+  /**
+		 * @class
+		 * @name .fs-background-container
+		 * @type element
+		 * @description Container element
+		 */
+  /**
+		 * @class
+		 * @name .fs-background-media
+		 * @type element
+		 * @description Media element
+		 */
+  /**
+		 * @class
+		 * @name .fs-background-media.fs-background-animated
+		 * @type modifier
+		 * @description Indicates animated state
+		 */
+  /**
+		 * @class
+		 * @name .fs-background-media.fs-background-navtive
+		 * @type modifier
+		 * @description Indicates native support
+		 */
+  /**
+		 * @class
+		 * @name .fs-background-media.fs-background-fixed
+		 * @type modifier
+		 * @description Indicates fixed positioning
+		 */
+  /**
+		 * @class
+		 * @name .fs-background-embed
+		 * @type element
+		 * @description Embed/iFrame element
+		 */
+  /**
+		 * @class
+		 * @name .fs-background-embed.fs-background-embed-ready
+		 * @type modifier
+		 * @description Indicates ready state
+		 */
+}
+.fs-background,
+.fs-background-container,
+.fs-background-media {
+  transition: none;
+}
+.fs-background-container {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+.fs-background-media {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  opacity: 0;
+}
+.fs-background-media.fs-background-animated {
+  transition: opacity 0.5s linear;
+}
+.fs-background-media img,
+.fs-background-media video,
+.fs-background-media iframe {
+  width: 100%;
+  height: 100%;
+  display: block;
+  -webkit-user-drag: none;
+}
+.fs-background-media.fs-background-native,
+.fs-background-media.fs-background-fixed {
+  width: 100%;
+  height: 100%;
+}
+.fs-background-media.fs-background-native img,
+.fs-background-media.fs-background-fixed img {
+  display: none;
+}
+.fs-background-media.fs-background-native {
+  background-position: center;
+  background-size: cover;
+}
+.fs-background-media.fs-background-fixed {
+  background-position: center;
+  background-attachment: fixed;
+}
+.fs-background-embed.fs-background-ready:after {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  content: '';
+}
+.fs-background-embed.fs-background-ready iframe {
+  z-index: 0;
+}
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 /**
  * 1. Set default font family to sans-serif.
@@ -3944,6 +4063,16 @@ th {
 .ss-share.right:after {
   content: '';
 }
+@font-face {
+  font-family: 'Akkurat';
+  src: url('/assets/fonts/akkrg_pro_1.eot');
+  src: url('/assets/fonts/akkrg_pro_1.eot') format('embedded-opentype'), url('/assets/fonts/akkrg_pro_1.woff') format('woff'), url('/assets/fonts/akkrg_pro_1.ttf') format('truetype'), url('/assets/fonts/akkrg_pro_1.svg#AkkuratProRegular') format('svg');
+}
+@font-face {
+  font-family: 'AkkuratBoldRegular';
+  src: url('akkurat-bold.eot');
+  src: url('akkurat-bold.eot') format('embedded-opentype'), url('akkurat-bold.woff') format('woff'), url('akkurat-bold.ttf') format('truetype'), url('akkurat-bold.svg#AkkuratBoldRegular') format('svg');
+}
 .img-responsive {
   display: block;
   max-width: 100%;
@@ -4039,7 +4168,7 @@ img.rounded {
   outline: none;
 }
 body {
-  font-family: 'Roboto Condensed', sans-serif;
+  font-family: 'Akkurat', sans-serif;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   color: #666666;
@@ -4522,6 +4651,88 @@ input[type=button] {
 #header .menu li:before {
   display: none;
 }
+#footer {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  z-index: 10;
+  color: rgba(255, 255, 255, 0.75);
+}
+@media screen and (min-width: 300px) {
+  #footer {
+    text-align: center;
+  }
+}
+@media screen and (min-width: 740px) {
+  #footer {
+    text-align: left;
+  }
+}
+@media screen and (min-width: 740px) {
+  #footer {
+    padding: 0 10px;
+  }
+}
+#footer span {
+  color: inherit;
+}
+#footer a {
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: none;
+}
+#footer a:hover {
+  color: #fff;
+}
+#footer a.btn--nav {
+  display: inline-block;
+}
+@media screen and (min-width: 300px) {
+  #footer a.btn--nav {
+    height: 55px;
+    line-height: 55px;
+  }
+}
+@media screen and (min-width: 740px) {
+  #footer a.btn--nav {
+    height: 70px;
+    line-height: 70px;
+  }
+}
+#footer a.btn--logo {
+  background-image: url('/assets/img/lclogo.svg');
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: contain;
+  text-indent: -9999px;
+}
+@media screen and (min-width: 300px) {
+  #footer a.btn--logo {
+    width: 45px;
+  }
+}
+@media screen and (min-width: 740px) {
+  #footer a.btn--logo {
+    width: 50px;
+  }
+}
+#footer .divider {
+  background: rgba(255, 255, 255, 0.25);
+}
+@media screen and (min-width: 300px) {
+  #footer .divider {
+    margin: 0;
+  }
+}
+@media screen and (min-width: 300px) {
+  #footer .text-right {
+    text-align: center;
+  }
+}
+@media screen and (min-width: 740px) {
+  #footer .text-right {
+    text-align: right;
+  }
+}
 .entry {
   margin-bottom: 100px;
 }
@@ -4557,6 +4768,7 @@ input[type=button] {
   top: 50%;
   transform: translate(-50%, -50%);
   width: 100%;
+  z-index: 20;
 }
 .carousel_fade .fs-carousel-item {
   opacity: 0;

@@ -1,0 +1,75 @@
+  #footer {
+
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  z-index: 10;
+  color: @white75;
+
+  @media @min {
+    text-align: center;
+  }
+  @media @tablet {
+    text-align: left;
+  }
+
+  @media @tablet {
+    padding: 0 10px;
+  }
+
+  span {
+    color: inherit;
+  }
+
+  a {
+    color: @white75;
+    text-decoration: none;
+    &:hover {
+      color: @white;
+    }
+    &.btn {
+      &--nav {
+        display: inline-block;
+        @media @min {
+          height: 55px;
+          line-height: 55px;  
+        }
+        @media @tablet {
+          height: 70px;
+          line-height: 70px;  
+        }
+      }
+      &--logo {
+        @media @min {
+          width: 45px;
+        }
+        @media @tablet {
+          width: 50px;
+        }
+        
+        background-image: url('/assets/img/lclogo.svg');
+        background-repeat: no-repeat;
+        background-position: top center;
+        background-size: contain;
+        text-indent: -9999px
+      }
+    }
+  }
+
+  .divider {
+    background: @white25;
+    @media @min {
+      margin: 0;
+    }
+  }
+
+  .text-right {
+    @media @min {
+      text-align: center;
+    }
+    @media @tablet {
+      text-align: right;
+    }
+  }
+
+}

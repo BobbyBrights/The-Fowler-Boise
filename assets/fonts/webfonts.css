@@ -1,0 +1,35 @@
+@font-face {
+    font-family: 'Akkurat Light';
+    src: url('akkurat-light.eot');
+    src: url('akkurat-light.eot') format('embedded-opentype'),
+         url('akkurat-light.woff') format('woff'),
+         url('akkurat-light.ttf') format('truetype'),
+         url('akkurat-light.svg#AkkuratLightRegular') format('svg');
+}
+
+@font-face {
+    font-family: 'Akkurat';
+    src: url('akkrg_pro_1.eot');
+    src: url('akkrg_pro_1.eot') format('embedded-opentype'),
+         url('akkrg_pro_1.woff') format('woff'),
+         url('akkrg_pro_1.ttf') format('truetype'),
+         url('akkrg_pro_1.svg#AkkuratProRegular') format('svg');
+}
+
+@font-face {
+    font-family: 'Akkurat Bold';
+    src: url('akkurat-bold.eot');
+    src: url('akkurat-bold.eot') format('embedded-opentype'),
+         url('akkurat-bold.woff') format('woff'),
+         url('akkurat-bold.ttf') format('truetype'),
+         url('akkurat-bold.svg#AkkuratBoldRegular') format('svg');
+}
+
+@font-face {
+    font-family: 'Akkurat Italic';
+    src: url('akkurat-italic.eot');
+    src: url('akkurat-italic.eot') format('embedded-opentype'),
+         url('akkurat-italic.woff') format('woff'),
+         url('akkurat-italic.ttf') format('truetype'),
+         url('akkurat-italic.svg#AkkuratItalicRegular') format('svg');
+}

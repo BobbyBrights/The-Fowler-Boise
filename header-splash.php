@@ -25,6 +25,6 @@
 
 </head>
 
-<body class="fs-grid">
+<body class="fs-grid fs-grid-fluid">
 <div id="wrapper">
 <div id="content-wrapper" class='fs-grid'>

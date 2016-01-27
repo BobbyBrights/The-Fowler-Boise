@@ -1,18 +1,10 @@
 <?php Themewrangler::setup_page();get_header('splash' /***Template Name: Splash */); ?>
 
-<div id="splash">
+<div id="splash" class="wallpaper" data-background-options='{"source":"/wp-content/uploads/2016/01/fowler_house.jpg"}'>
   <div id="splash--centered">
-    <div class="fs-rows">
-      <div class="fs-cells fs-all-full fs-centered text-center">
-        <div class="carousel carousel_fade" data-carousel-options='{"single":true,"controls":false,"pagination":false,"infinite":true}'>
-          <?php 
-            $slides = get_field('slideshow');
-            foreach ($slides as $image):
-          ?>
-          <div class="carousel_slide"><img src="<?php echo $image['sizes']['gallery-lg']; ?>" class="img-responsive" /></div>
-          <?php endforeach; ?>
-        </div>
-      </div>
+    <div class="fs-row">
+      <div class="fs-cell fs-all-full fs-sm-hide"><img src="/assets/img/thefowlerlogo.svg" class="img-responsive" /></div>
+      <div class="fs-cell fs-all-full fs-md-hide fs-lg-hide"><img src="/assets/img/thefowlerlogo_mobile.svg" class="img-responsive" /></div>
     </div>
   </div>
 </div>
