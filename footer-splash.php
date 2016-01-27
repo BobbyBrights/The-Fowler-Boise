@@ -8,7 +8,7 @@
     <hr class="divider compact fs-cell fs-lg-hide fs-md-hide fs-sm-3">
     <div class="fs-cell fs-lg-third fs-md-half fs-sm-full">
       <div class="text-center">
-        <a href="#" class="btn--nav swap" data-swap-target="#splash_gallery" data-swap-group="toggle_group_1">View Renderings</a>
+        <a href="#" class="btn--nav swap toggle_group_1" data-swap-target="#splash_gallery" data-swap-linked=".toggle_group_1">View Renderings</a>
         <span class="btn--nav">|</span>
         <a href="$" class="btn--nav">Stay Updated</a>
       </div>

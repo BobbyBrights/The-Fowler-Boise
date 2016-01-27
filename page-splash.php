@@ -8,6 +8,7 @@
     </div>
   </div>
   <div id="splash_gallery">
+    <a href="#" class="ss-gizmo ss-delete swap toggle_group_1" data-swap-target="#splash_gallery" data-swap-linked=".toggle_group_1"></a>
     <div id="splash_gallery--centered">
       <div class="fs-row">
         <div class="fs-cell fs-xl-10 fs-lg-10 fs-md-6 fs-sm-3 fs-centered ">

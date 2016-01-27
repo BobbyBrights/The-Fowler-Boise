@@ -4782,6 +4782,16 @@ input[type=button] {
   pointer-events: none;
   transition: 500ms;
 }
+#splash_gallery .ss-delete {
+  color: #fff;
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 5px;
+  text-decoration: none;
+  font-size: 32px;
+  font-size: 2rem;
+}
 #splash_gallery--centered {
   left: 50%;
   position: absolute;
