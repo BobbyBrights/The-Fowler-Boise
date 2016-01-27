@@ -8,6 +8,13 @@ function mobileMenu(){
 	$(".mobile-toggle").swap();
 }
 
+function splashShow(){
+	setInterval(function(){
+		$('#splash_bg-two').toggleClass('active');
+	}, 10000);
+}
+
 $(document).ready(function(){
 	mobileMenu();
+	splashShow();
 });

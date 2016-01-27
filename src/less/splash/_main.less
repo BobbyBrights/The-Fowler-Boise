@@ -4,6 +4,13 @@
   background: @black;
   .cover();
 
+  &_bg-two, &_bg-one {
+    transition: 1s ease-out;
+    &.active {
+      opacity: 0;
+    }
+  }
+
   &--centered {
     .center();
     width: 100%;
