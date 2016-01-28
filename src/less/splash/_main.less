@@ -15,6 +15,17 @@
     .center();
     width: 100%;
     z-index: 20;
+    color: @white;
+    @media @min {
+      .font_size(24);  
+    }
+    @media @tablet {
+      .font_size(32);
+    }
+    
+    .desc {
+      transform: translateY(@spaced*2);
+    }
   }
 
   &_gallery {

@@ -4876,6 +4876,24 @@ input[type=button] {
           transform: translate(-50%, -50%);
   width: 100%;
   z-index: 20;
+  color: #fff;
+}
+@media screen and (min-width: 300px) {
+  #splash--centered {
+    font-size: 24px;
+    font-size: 1.5rem;
+  }
+}
+@media screen and (min-width: 740px) {
+  #splash--centered {
+    font-size: 32px;
+    font-size: 2rem;
+  }
+}
+#splash--centered .desc {
+  -webkit-transform: translateY(50px);
+      -ms-transform: translateY(50px);
+          transform: translateY(50px);
 }
 #splash_gallery {
   height: 100%;

@@ -5,6 +5,7 @@
     <div class="fs-row">
       <div class="fs-cell fs-all-full fs-sm-hide"><img src="/assets/img/thefowlerlogo.svg" class="img-responsive" /></div>
       <div class="fs-cell fs-all-full fs-md-hide fs-lg-hide"><img src="/assets/img/thefowlerlogo_mobile.svg" class="img-responsive" /></div>
+      <div class="fs-cell fs-all-full desc"><?php the_post(); the_content(); ?></div>
     </div>
   </div>
   <div id="splash_gallery">
