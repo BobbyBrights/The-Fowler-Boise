@@ -13,3 +13,4 @@
 // @codekit-prepend "../bower_components/components-modernizr/modernizr.js"
 // @codekit-prepend "../bower_components/jquery.transit/jquery.transit.js"
 // @codekit-prepend "../bower_components/headhesive.js/dist/headhesive.js"
+// @codekit-prepend "../bower_components/magnific-popup/dist/jquery.magnific-popup.js"

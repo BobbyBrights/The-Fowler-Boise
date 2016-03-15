@@ -7,26 +7,36 @@
 		}
 		@media @tablet {
 			padding: 10px 0px 10px 17px;
-			box-shadow: 0 1px 4px fade(@black, 20%);
+			//box-shadow: 0 1px 4px fade(@black, 20%);
 		}
 		@media @desktop {
 			padding: 10px 0px 10px 20px;
 		}
+	}
+	&_title {
+		margin-bottom: 0;
+	}
+	&_heading {
+		margin-bottom: @spaced;
 	}
 	&_body {
 		min-width: 100%;
 	}
 	&_fields {
 		.gfield {
+			margin-bottom: 5px;
 			&_label {
 				font-weight: 400!important;
-				margin-bottom: 0px!important
+				margin-bottom: 0px!important;
+				display: none;
 			}
 			&_description {
 				padding-top: 0!important;
 			}
 			input {
 				margin-bottom: 0;
+				padding: 8px;
+				margin-bottom: 5px;
 			}
 			&:before {
 				display: none;

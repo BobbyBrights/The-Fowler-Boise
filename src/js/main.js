@@ -14,6 +14,24 @@ function splashShow(){
 	}, 10000);
 }
 
+$('.modal-btn').magnificPopup({
+	type: 'inline',
+	preloader: false,
+	focus: '#input_1_1',
+
+	// When elemened is focused, some mobile browsers in some cases zoom in
+	// It looks not nice, so we disable it:
+	callbacks: {
+		beforeOpen: function() {
+			if($(window).width() < 700) {
+				this.st.focus = false;
+			} else {
+				this.st.focus = '#input_1_1';
+			}
+		}
+	}
+});
+
 $(document).ready(function(){
 	mobileMenu();
 	splashShow();
