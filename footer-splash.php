@@ -18,7 +18,7 @@
     <hr class="divider compact fs-cell fs-lg-hide fs-md-hide fs-sm-3">
     <div class="fs-cell fs-lg-third fs-md-full fs-sm-full">
       <div class="text-right">
-        <span class="btn--nav">Contact <a class="underline" href="mailto:info@thefowlerboise.com">info@thefowlerboise.com</a> or call 208-639-2705</span>
+        <span class="btn--nav">Contact <a class="underline" href="mailto:info@thefowlerboise.com">info@thefowlerboise.com</a> or call 208-629-4066</span>
       </div>
     </div>
   </div>
