@@ -27,11 +27,12 @@
 
 </div>
 </div><!--Wrapper-->
-<?php wp_footer(); ?>
 
 <div id="subscribe-modal" class="modal mfp-hide">
   <?php echo do_shortcode('[gravityform id="1" title="true" description="true" ajax="true"]' ); ?>
 </div>
+
+<?php wp_footer(); ?>
 
 </body>
 </html>
